@@ -57,9 +57,9 @@ const products = [
 
     // Add item to cart
     function addToCart(productId) {
-      const product = products.find((product) => product.id === productId);
+      const product = products.find((product) => product.id == productId);
       if (!product) {
-        console.error("Product not found!");
+        console.log("Product not found!");
         return;
       }
 
