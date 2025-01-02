@@ -1,4 +1,4 @@
-  const products = [
+const products = [
       { id: 1, name: "Product 1", price: 10 },
       { id: 2, name: "Product 2", price: 20 },
       { id: 3, name: "Product 3", price: 30 },
@@ -6,7 +6,6 @@
       { id: 5, name: "Product 5", price: 50 },
     ];
 
-    // DOM elements
     const productList = document.getElementById("product-list");
     const cartList = document.getElementById("cart-list");
     const clearCartButton = document.getElementById("clear-cart-btn");
@@ -31,6 +30,10 @@
       addToCartButtons.forEach((button) => {
         button.addEventListener("click", (e) => {
           const productId = parseInt(e.target.getAttribute("data-id"));
+          if (isNaN(productId)) {
+            console.error('Invalid product ID');
+            return;
+          }
           addToCart(productId);
         });
       });
@@ -55,15 +58,18 @@
     // Add item to cart
     function addToCart(productId) {
       const product = products.find((product) => product.id === productId);
-      if (product) {
-        const cart = JSON.parse(sessionStorage.getItem("cart"));
-        const productInCart = cart.find((item) => item.id === productId);
+      if (!product) {
+        console.error("Product not found!");
+        return;
+      }
 
-        if (!productInCart) {
-          cart.push(product);
-          sessionStorage.setItem("cart", JSON.stringify(cart));
-          renderCart(); // Update the cart view
-        }
+      const cart = JSON.parse(sessionStorage.getItem("cart"));
+      const productInCart = cart.find((item) => item.id === productId);
+
+      if (!productInCart) {
+        cart.push(product);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        renderCart(); // Update the cart view
       }
     }
 
